@@ -1,0 +1,11 @@
+.theme-switcher {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.theme-switcher img {
+  width: 25px;
+  height: 25px;
+}

@@ -1,0 +1,52 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 20px;
+}
+
+.nav-left {
+  flex: 1;
+  text-align: left;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.home-icon {
+  color: grey;
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.theme-switcher {
+  margin-left: 5px;
+}

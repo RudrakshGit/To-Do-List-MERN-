@@ -1,0 +1,9 @@
+# Node modules
+Todo_List/client/node_modules/
+Todo_List/server/node_modules/
+# Environment variables
+.env
+Todo_List/server/.env/
+#Packages
+Todo_List/client/package-lock.json/
+Todo_List/server/package-lock.json/
