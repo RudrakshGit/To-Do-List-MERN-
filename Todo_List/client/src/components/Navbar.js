@@ -5,17 +5,23 @@ import ThemeSwitcher from './ThemeSwitcher';
 import './Navbar.css';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
+    const updateAuthStatus = () => {
+      setIsLoggedIn(!!localStorage.getItem('token'));
+    };
+    window.addEventListener('authChange', updateAuthStatus);
+
+    return () => {
+      window.removeEventListener('authChange', updateAuthStatus);
+    };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    window.dispatchEvent(new Event('authChange'));
     navigate('/login');
   };
 
@@ -37,7 +43,7 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
-          <Link to="/login" className="nav-link" onClick={handleLogout}>
+          <Link to="/" className="nav-link" onClick={handleLogout}>
             Logout
           </Link>
         )}
