@@ -3,6 +3,7 @@
 ## **Description**
 
 A **full-stack Todo List** application built using **React.js (frontend)** and **Node.js + Express.js (backend)**, with **MongoDB** for persistent storage. The application allows users to manage tasks efficiently through a user-friendly interface.
+Main aim to create this project was to learn good practices of MERN Stack Development. You can notice the directory files are well-structed too to easily use this repo as a reference to my upcoming projects.
 
 ## **Features**
 
@@ -12,7 +13,7 @@ A **full-stack Todo List** application built using **React.js (frontend)** and *
 ✅ Persistent storage with **MongoDB**  
 ✅ Responsive UI built with **React.js + Bootstrap**  
 ✅ RESTful API for seamless backend integration  
-✅ Authentication support (optional)
+✅ Authentication support
 
 ---
 
@@ -125,10 +126,3 @@ Contributions are welcome! Feel free to fork the repository, create issues, or s
 
 ---
 
-## **License**
-
-This project is licensed under the **MIT License**.
-
-```
-
-```
