@@ -12,7 +12,7 @@ A **full-stack Todo List** application built using **React.js (frontend)** and *
 ✅ Persistent storage with **MongoDB**  
 ✅ Responsive UI built with **React.js + Bootstrap**  
 ✅ RESTful API for seamless backend integration  
-✅ Authentication support (optional)
+✅ Authentication support
 
 ---
 
