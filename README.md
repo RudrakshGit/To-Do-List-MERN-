@@ -22,7 +22,7 @@ Main aim to create this project was to learn good practices of MERN Stack Develo
 ### **1. Clone the repository**
 
 ```sh
-git clone <your-repo-url>
+git clone <repo-url>
 cd Todo_List
 ```
 
