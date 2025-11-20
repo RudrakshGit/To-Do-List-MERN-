@@ -13,6 +13,7 @@ const Login = () => {
     const res = await loginUser(username, password);
     if (res.token) {
       localStorage.setItem('token', res.token);
+      localStorage.setItem('username', username);
       navigate('/tasks');
     } else {
       setError(res.msg || 'Login failed');

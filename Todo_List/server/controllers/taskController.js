@@ -27,7 +27,13 @@ exports.updateTask = async (req, res) => {
     if (task.userId.toString() !== req.user.userId)
       return res.status(401).json({ msg: 'Unauthorized' });
 
-    task.completed = !task.completed;
+    // If text is provided, update the text; otherwise toggle completion
+    if (req.body.text !== undefined) {
+      task.text = req.body.text;
+    } else {
+      task.completed = !task.completed;
+    }
+    
     await task.save();
     res.json(task);
   } catch (err) {
@@ -43,7 +49,7 @@ exports.deleteTask = async (req, res) => {
     if (task.userId.toString() !== req.user.userId)
       return res.status(401).json({ msg: 'Unauthorized' });
 
-    await task.remove();
+    await task.deleteOne();
     res.json({ msg: 'Task deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });

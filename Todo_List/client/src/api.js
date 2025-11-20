@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5001/api';
 
 export const registerUser = async (username, password) => {
   const res = await fetch(`${API_BASE_URL}/auth/register`, {
@@ -51,8 +51,10 @@ export const addTask = async (token, text) => {
   return data;
 };
 
-export const updateTask = async (token, taskId) => {
+export const updateTask = async (token, taskId, text = null) => {
   console.log('🔍 Sending Token for Updating Task:', token);
+
+  const body = text !== null ? { text } : {};
 
   const res = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
     method: 'PUT',
@@ -60,6 +62,7 @@ export const updateTask = async (token, taskId) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify(body),
   });
 
   const data = await res.json();

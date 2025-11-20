@@ -21,6 +21,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     window.dispatchEvent(new Event('authChange'));
     navigate('/login');
   };

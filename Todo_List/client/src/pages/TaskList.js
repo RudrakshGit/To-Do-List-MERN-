@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TaskList.css';
-import { FaTrash, FaCheck, FaArrowDown } from 'react-icons/fa';
+import { FaTrash, FaCheck, FaArrowDown, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { getTasks, addTask, updateTask, deleteTask } from '../api';
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editText, setEditText] = useState('');
   const taskListRef = useRef(null);
 
   const token = localStorage.getItem('token');
@@ -55,6 +57,9 @@ const TaskList = () => {
   };
 
   const toggleTaskCompletion = async (taskId) => {
+    // Don't toggle if we're editing this task
+    if (editingTaskId === taskId) return;
+    
     try {
       const updatedTask = await updateTask(token, taskId);
       setTasks((prevTasks) =>
@@ -64,6 +69,42 @@ const TaskList = () => {
       );
     } catch (error) {
       console.error('Error updating task:', error);
+    }
+  };
+
+  const handleEditTask = (task) => {
+    setEditingTaskId(task._id);
+    setEditText(task.text);
+  };
+
+  const handleSaveEdit = async (taskId) => {
+    if (editText.trim() === '') {
+      setEditingTaskId(null);
+      return;
+    }
+
+    try {
+      const updatedTask = await updateTask(token, taskId, editText);
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
+      );
+      setEditingTaskId(null);
+      setEditText('');
+    } catch (error) {
+      console.error('Error editing task:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingTaskId(null);
+    setEditText('');
+  };
+
+  const handleEditKeyPress = (e, taskId) => {
+    if (e.key === 'Enter') {
+      handleSaveEdit(taskId);
+    } else if (e.key === 'Escape') {
+      handleCancelEdit();
     }
   };
 
@@ -93,9 +134,12 @@ const TaskList = () => {
     }
   };
 
+  const username = localStorage.getItem('username') || 'User';
+
   return (
     <div className="main-container">
       <h1 className="task-title">To-Do List</h1>
+      <h2 className="task-subtitle">Hello! {username}</h2>
       <div className="auth-box">
         <div className="task-input-container">
           <input
@@ -114,19 +158,54 @@ const TaskList = () => {
         <div className="task-list" ref={taskListRef}>
           {tasks.map((task) => (
             <div key={task._id} className="task-item">
-              <span
-                className={`task-text ${
-                  task.completed ? 'completed-task' : ''
-                }`}
-                onClick={() => toggleTaskCompletion(task._id)}
-              >
-                {task.completed ? <FaCheck className="task-check" /> : '⬜'}{' '}
-                {task.text}
-              </span>
-              <FaTrash
-                className="delete-task"
-                onClick={() => handleDeleteTask(task._id)}
-              />
+              {editingTaskId === task._id ? (
+                <>
+                  <input
+                    type="text"
+                    className="edit-task-input"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    onKeyDown={(e) => handleEditKeyPress(e, task._id)}
+                    autoFocus
+                  />
+                  <div className="task-actions">
+                    <FaSave
+                      className="save-task"
+                      onClick={() => handleSaveEdit(task._id)}
+                      title="Save"
+                    />
+                    <FaTimes
+                      className="cancel-task"
+                      onClick={handleCancelEdit}
+                      title="Cancel"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span
+                    className={`task-text ${
+                      task.completed ? 'completed-task' : ''
+                    }`}
+                    onClick={() => toggleTaskCompletion(task._id)}
+                  >
+                    {task.completed ? <FaCheck className="task-check" /> : '⬜'}{' '}
+                    {task.text}
+                  </span>
+                  <div className="task-actions">
+                    <FaEdit
+                      className="edit-task"
+                      onClick={() => handleEditTask(task)}
+                      title="Edit"
+                    />
+                    <FaTrash
+                      className="delete-task"
+                      onClick={() => handleDeleteTask(task._id)}
+                      title="Delete"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
